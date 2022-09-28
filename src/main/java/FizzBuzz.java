@@ -1,7 +1,7 @@
 public class FizzBuzz {
     public String fizzBuzzString(int number) {
         if ((number % 3 == 0) && (number % 5 == 0)) {
-            // if divisble by both 3 and 5
+            // if divisible by both 3 and 5
             return "FizzBuzz";
         } else if (number % 3 == 0) {
             // if divisible by 3

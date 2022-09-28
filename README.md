@@ -27,7 +27,7 @@ integrate this new functionality:
 public class FizzBuzz {
     public String fizzBuzzString(int number) {
         if ((number % 3 == 0) && (number % 5 == 0)) {
-            // if divisble by both 3 and 5
+            // if divisible by both 3 and 5
             return "FizzBuzz";
         } else if (number % 3 == 0) {
             // if divisible by 3
@@ -142,7 +142,54 @@ time and then build and refactor them as you go.
 If you run your test again, it should pass this time! Yippee! So now what?
 
 According to the TDD cycle and steps above, you will repeat this process until
-you have finished developing. So let's go ahead and write another test:
+you have finished developing.
+
+## The Disabled Annotation
+
+Sometimes when we see our tests failing before we implement the code, we may
+feel a little disheartened. We may just want to ignore that unit test for now
+until we have implemented it.
+
+If we decide we want to do that, we can use the `@Disabled` annotation. Go ahead
+and add the annotation to the unit test we just wrote:
+
+```java
+@Disabled
+@Test
+void testSingularFizzBuzzArray() {
+    String[] expectedResult = {"1"};
+    assertArrayEquals(expectedResult, fizzBuzz.fizzBuzzArray(1));
+}
+```
+
+When you do this, you might also notice that it adds a new import statement too
+to the test class:
+
+```java
+import org.junit.jupiter.api.Disabled;
+```
+
+Now run all the tests in `FizzBuzzTest` and see what happens.
+
+![disable-test](https://curriculum-content.s3.amazonaws.com/java-mod-3/tdd-lab/disable-test.png)
+
+Notice how it ran the other 4 tests and skipped over the one that we added the
+`@Disabled` annotation to! This is a great annotation to use when we write a
+test but have not yet implemented the code to go along with it yet. For the
+purposes of this code-along on, and to show the process of test-driven
+development, we will show the failed tests first and then add and remove the
+`@Disabled` annotation.
+
+**Important Note:** when you use this annotation, it is crucial that after you
+implement the code that you remove the `@Disabled` annotation as we want to
+ensure that all of our tests are passing and working as expected. You should
+only really use this annotation when you are writing the code and ensuring that
+it compiles and runs. Remove the `@Disabled` annotation when you are ready to
+actually have it test your code.
+
+## Repeat the TDD Steps
+
+So let's go ahead and write another test:
 
 ```java
 @Test
@@ -153,8 +200,19 @@ void testMediumFizzBuzzArray() {
 ```
 
 If you run just this test, you'll see it fails since the code is currently only
-considering a single element in the array. Since it fails, we will go ahead
-and refactor the code again!
+considering a single element in the array. Since it fails, we will go ahead and
+add the `@Disabled` annotation temporarily:
+
+```java
+@Disabled
+@Test
+void testMediumFizzBuzzArray() {
+    String[] expectedResult = {"1", "2", "Fizz"};
+    assertArrayEquals(expectedResult, fizzBuzz.fizzBuzzArray(3));
+}
+```
+
+Now let's go back and refactor the code again!
 
 ```java
 public String[] fizzBuzzArray(int number) {
@@ -181,7 +239,8 @@ walk through this code:
 - Return the `result` array.
 
 Now that we understand the code above, let's run the `testMediumFizzBuzzArray()`
-method again. We should see it pass!
+method again. Remove the `@Disabled` annotation and run just that test method.
+We should see it pass!
 
 Go back and double check that the `testSingularFizzBuzzArray()` method still
 passes too. It should!
@@ -225,7 +284,8 @@ void testZeroFizzBuzzArray() {
 ```
 
 If you run the test above, you will see that it fails since the code did not
-account for this! Let's go back and modify it.
+account for this! Add the `@Disabled` annotation to the test method for now, so
+we can skip this test. Now let's go back and modify the code:
 
 ```java
 public String[] fizzBuzzArray(int number) {
@@ -242,8 +302,8 @@ public String[] fizzBuzzArray(int number) {
 }
 ```
 
-Add an `if` statement to handle the zero test case. Now re-run the test and see
-if it passes this time!
+Add an `if` statement to handle the zero test case. Now re-run the test by
+removing the `@Disabled` annotation and see if it passes this time!
 
 Another edge case for us to consider is negative numbers. An array cannot have
 a negative size. Add another test case to handle this edge case and assume the
@@ -257,7 +317,8 @@ void testNegativeFizzBuzzArray() {
 ```
 
 When you execute this test, it will fail since, again, the code currently does
-not handle this. Let's refactor it some more!
+not handle this. Again, we will temporarily add the `@Disabled` annotation to
+the test method, and then we'll do some more refactoring!
 
 ```java
 public String[] fizzBuzzArray(int number) {
@@ -277,8 +338,8 @@ public String[] fizzBuzzArray(int number) {
 In the above code, notice that the only change is the `==` to `<=` to catch any
 non-positive integer that might be passed in.
 
-Go ahead and run the `testNegativeFizzBuzzArray()` test method and make sure it
-passes now.
+Go ahead and run the `testNegativeFizzBuzzArray()` test method without the
+`@Disabled` annotation and make sure it passes now.
 
 Now let's run our entire test suite! Double check that all 9 unit tests
 pass as expected and turn in your `FizzBuzz.java` and `FizzBuzzTest.java`
